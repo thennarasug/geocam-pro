@@ -1,0 +1,6 @@
+{
+  "name": "GeoCam Pro - GPS Geotag Camera",
+  "description": "Professional GPS geotagging camera app. Capture photos stamped with high-accuracy coordinates, altitude, compass bearing, timestamp, and address with offline support.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
