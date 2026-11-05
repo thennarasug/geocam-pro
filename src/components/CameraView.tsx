@@ -20,7 +20,8 @@ import {
   AlertCircle,
   Map,
   Smartphone,
-  Palette
+  Palette,
+  Download
 } from 'lucide-react';
 import { 
   GeoLocationData, 
@@ -627,10 +628,11 @@ export const CameraView: React.FC<CameraViewProps> = ({
             {onOpenExportModal && (
               <button
                 onClick={onOpenExportModal}
-                className="p-2 rounded-full bg-cyan-600/30 text-cyan-300 hover:bg-cyan-600/50 border border-cyan-400/40 backdrop-blur-md transition shadow"
-                title="Export APK to Mobile & GitHub"
+                className="px-2.5 py-1 rounded-full bg-cyan-600/40 hover:bg-cyan-600/60 text-cyan-200 border border-cyan-400/50 backdrop-blur-md transition shadow flex items-center gap-1.5"
+                title="Download APK & Mobile Test"
               >
-                <Smartphone className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5" />
+                <span className="text-[11px] font-bold">APK</span>
               </button>
             )}
 

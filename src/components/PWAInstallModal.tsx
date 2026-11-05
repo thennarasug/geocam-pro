@@ -14,7 +14,11 @@ import {
   QrCode, 
   Archive,
   Terminal,
-  Sparkles
+  Sparkles,
+  Package,
+  Layers,
+  Wrench,
+  HelpCircle
 } from 'lucide-react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
 
@@ -24,7 +28,7 @@ interface PWAInstallModalProps {
 
 export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ onClose }) => {
   const { isInstallable, isInstalled, install } = usePWAInstall();
-  const [activeTab, setActiveTab] = useState<'mobile' | 'github'>('mobile');
+  const [activeTab, setActiveTab] = useState<'apk' | 'mobile' | 'github'>('apk');
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [copiedGitCmd, setCopiedGitCmd] = useState<boolean>(false);
@@ -34,9 +38,12 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ onClose }) => 
   const githubUser = 'thennarasug';
   const githubRepoName = 'geocam-pro';
 
+  // PWABuilder URL for instant Cloud APK generation
+  const pwaBuilderUrl = `https://www.pwabuilder.com/reportcard?site=${encodeURIComponent(mobileUrl)}`;
+
   useEffect(() => {
     QRCode.toDataURL(mobileUrl, {
-      width: 200,
+      width: 220,
       margin: 1,
       color: {
         dark: '#0f172a',
@@ -72,7 +79,7 @@ git push -u origin main`;
     }
   };
 
-  const handleDownloadZip = () => {
+  const handleDownloadSourceZip = () => {
     const a = document.createElement('a');
     a.href = '/geocam-pro-source.zip';
     a.download = `${githubRepoName}-source.zip`;
@@ -81,9 +88,18 @@ git push -u origin main`;
     document.body.removeChild(a);
   };
 
+  const handleDownloadAndroidProject = () => {
+    const a = document.createElement('a');
+    a.href = '/geocam-pro-android-project.zip';
+    a.download = `${githubRepoName}-android-project.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-black/90 flex flex-col items-center justify-center p-3 sm:p-4 text-slate-100 animate-in fade-in duration-150">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl relative">
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden shadow-2xl relative">
         {/* Top Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80 shrink-0">
           <div className="flex items-center gap-2.5">
@@ -91,7 +107,10 @@ git push -u origin main`;
               <Camera className="w-5 h-5 text-slate-950" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-white">Mobile APK Test & GitHub Export</h2>
+              <h2 className="text-sm font-bold text-white flex items-center gap-1.5">
+                <span>Download APK & Mobile Export</span>
+                <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.2 rounded font-mono">v1.0</span>
+              </h2>
               <p className="text-[11px] text-slate-400">Target User: <span className="text-cyan-400 font-mono">@{githubUser}</span></p>
             </div>
           </div>
@@ -104,37 +123,156 @@ git push -u origin main`;
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-800 bg-slate-950/50 px-4 shrink-0">
+        <div className="flex border-b border-slate-800 bg-slate-950/50 px-2 sm:px-4 shrink-0 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab('apk')}
+            className={`py-2.5 px-3 text-xs font-semibold flex items-center gap-1.5 border-b-2 whitespace-nowrap transition ${
+              activeTab === 'apk'
+                ? 'border-cyan-400 text-cyan-400'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>📦 Download APK</span>
+          </button>
+
           <button
             onClick={() => setActiveTab('mobile')}
-            className={`py-2.5 px-3 text-xs font-semibold flex items-center gap-2 border-b-2 transition ${
+            className={`py-2.5 px-3 text-xs font-semibold flex items-center gap-1.5 border-b-2 whitespace-nowrap transition ${
               activeTab === 'mobile'
                 ? 'border-cyan-400 text-cyan-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <Smartphone className="w-4 h-4" />
-            <span>📱 Mobile APK Test</span>
+            <span>📱 Mobile Test / WebAPK</span>
           </button>
+
           <button
             onClick={() => setActiveTab('github')}
-            className={`py-2.5 px-3 text-xs font-semibold flex items-center gap-2 border-b-2 transition ${
+            className={`py-2.5 px-3 text-xs font-semibold flex items-center gap-1.5 border-b-2 whitespace-nowrap transition ${
               activeTab === 'github'
                 ? 'border-cyan-400 text-cyan-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
             <Github className="w-4 h-4" />
-            <span>🐙 GitHub Export (@{githubUser})</span>
+            <span>🐙 GitHub Export</span>
           </button>
         </div>
 
         {/* Tab Content */}
-        <div className="p-5 overflow-y-auto space-y-4 text-xs flex-1">
-          {/* TAB 1: MOBILE APK TEST */}
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs flex-1">
+          {/* TAB 1: DOWNLOAD APK (PRIMARY) */}
+          {activeTab === 'apk' && (
+            <div className="space-y-3.5">
+              {/* Option 1: PWABuilder 1-Click APK Generator */}
+              <div className="bg-gradient-to-br from-cyan-950/50 via-slate-900 to-slate-950 p-4 rounded-2xl border border-cyan-500/50 shadow-lg space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-white text-xs">Method 1: Instant Cloud APK Generator</h3>
+                      <p className="text-[10px] text-cyan-300/80 font-mono">PWABuilder (Google & Microsoft Partner)</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">
+                    Fastest (No setup)
+                  </span>
+                </div>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  Generates a signed Android <strong className="text-white">.apk</strong> and Google Play <strong className="text-white">.aab</strong> package directly from our verified PWA manifest in ~15 seconds.
+                </p>
+                <a
+                  href={pwaBuilderUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-2.5 px-3 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold rounded-xl flex items-center justify-center gap-2 shadow transition transform active:scale-98"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Generate & Download APK on PWABuilder</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Option 2: Turnkey Android Studio / Gradle Build Kit */}
+              <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-slate-800 text-slate-200 flex items-center justify-center">
+                      <Wrench className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-white text-xs">Method 2: Android Studio & Gradle Project</h3>
+                      <p className="text-[10px] text-slate-400 font-mono">Turnkey build kit with AndroidManifest</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">
+                    ZIP Kit
+                  </span>
+                </div>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  Download the ready-to-build Android Studio project bundle. Contains camera permissions, geolocation hardware hooks, Gradle build files, and 1-click build guide.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={handleDownloadAndroidProject}
+                    className="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 flex items-center justify-center gap-2 transition"
+                  >
+                    <Download className="w-4 h-4 text-cyan-400" />
+                    <span>Download Android Project (ZIP)</span>
+                  </button>
+                </div>
+                <div className="bg-black/80 rounded-xl p-2.5 font-mono text-[10px] text-slate-300 border border-slate-800">
+                  <span className="text-slate-500"># Run in terminal to build APK:</span>
+                  <div className="text-emerald-300 mt-0.5">./gradlew assembleDebug</div>
+                  <div className="text-slate-400 text-[9px] mt-0.5">Output: app/build/outputs/apk/debug/app-debug.apk</div>
+                </div>
+              </div>
+
+              {/* Option 3: Native WebAPK Minting on Android Phone */}
+              <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-cyan-400 flex items-center justify-center">
+                    <Smartphone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-xs">Method 3: Native Android WebAPK (Direct on Device)</h3>
+                    <p className="text-[10px] text-slate-400 font-mono">Android OS built-in APK compiler</p>
+                  </div>
+                </div>
+                <p className="text-slate-300 text-[11px] leading-relaxed">
+                  When opened in Google Chrome or Samsung Internet on Android, Android's Google Play Services automatically compiles and installs an actual <strong className="text-white">WebAPK</strong> into your phone's app drawer.
+                </p>
+
+                {isInstallable ? (
+                  <button
+                    onClick={install}
+                    className="w-full py-2.5 px-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl shadow flex items-center justify-center gap-2 transition"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Install WebAPK Directly to this Device</span>
+                  </button>
+                ) : (
+                  <div className="flex items-center justify-between p-2 rounded-xl bg-slate-900 border border-slate-800">
+                    <span className="text-[11px] text-slate-400">Open on your Android phone to install:</span>
+                    <button
+                      onClick={() => setActiveTab('mobile')}
+                      className="text-cyan-400 hover:underline font-bold text-xs"
+                    >
+                      Show Mobile QR Code →
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: MOBILE QR CODE & TEST */}
           {activeTab === 'mobile' && (
             <div className="space-y-4">
-              {/* QR Code Card */}
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-center gap-4">
                 <div className="bg-white p-2 rounded-xl shadow shrink-0">
                   {qrDataUrl ? (
@@ -151,7 +289,7 @@ git push -u origin main`;
                     <QrCode className="w-4 h-4" /> Scan with Mobile Phone Camera
                   </div>
                   <p className="text-slate-300 leading-relaxed text-[11px]">
-                    Point your Android or iPhone camera at this QR code to open the app directly on your phone and test all camera/GPS hardware features.
+                    Point your Android or iPhone camera at this QR code to open the app directly on your phone and test all camera, compass, and offline GPS features.
                   </p>
                   <button
                     onClick={handleCopyLink}
@@ -163,18 +301,16 @@ git push -u origin main`;
                 </div>
               </div>
 
-              {/* Install Now Button if in standalone or installable */}
               {isInstallable && (
                 <button
                   onClick={install}
                   className="w-full py-3 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition transform active:scale-98"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Install APK to this Device Now</span>
+                  <span>Install WebAPK on this Device Now</span>
                 </button>
               )}
 
-              {/* Android WebAPK Instructions */}
               <div className="bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-2.5">
                 <div className="font-bold text-cyan-300 flex items-center gap-2 text-xs">
                   <Smartphone className="w-4 h-4" />
@@ -191,10 +327,9 @@ git push -u origin main`;
             </div>
           )}
 
-          {/* TAB 2: GITHUB EXPORT */}
+          {/* TAB 3: GITHUB EXPORT */}
           {activeTab === 'github' && (
             <div className="space-y-4">
-              {/* 1-Click ZIP Download Card */}
               <div className="bg-gradient-to-br from-cyan-950/40 to-slate-950 p-4 rounded-2xl border border-cyan-500/40 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div>
                   <h3 className="font-bold text-white text-xs flex items-center gap-2">
@@ -206,15 +341,14 @@ git push -u origin main`;
                   </p>
                 </div>
                 <button
-                  onClick={handleDownloadZip}
-                  className="w-full sm:w-auto px-4 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition shrink-0"
+                  onClick={handleDownloadSourceZip}
+                  className="w-full sm:w-auto px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition shrink-0"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download ZIP</span>
                 </button>
               </div>
 
-              {/* Git Commands Box */}
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-200 flex items-center gap-1.5 text-xs">
@@ -236,7 +370,6 @@ git push -u origin main`;
                   <div>git push -u origin main</div>
                 </div>
 
-                {/* Step-by-step guidance */}
                 <div className="text-[11px] text-slate-400 space-y-1.5 pt-1">
                   <p><strong>Step 1:</strong> Go to <a href="https://github.com/new" target="_blank" rel="noreferrer" className="text-cyan-400 underline">github.com/new</a> and create a repository named <code className="text-slate-200 bg-slate-900 px-1 py-0.5 rounded">{githubRepoName}</code> under your account <strong className="text-slate-200">{githubUser}</strong>.</p>
                   <p><strong>Step 2:</strong> Download the ZIP or run the commands above in your terminal.</p>

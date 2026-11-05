@@ -106,10 +106,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
         <button
           onClick={onOpenInstallModal}
-          className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow transition"
+          className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-1.5 shadow transition"
         >
-          <Smartphone className="w-3.5 h-3.5" />
-          <span>APK / Install</span>
+          <Download className="w-3.5 h-3.5" />
+          <span>Download APK</span>
         </button>
       </div>
 
