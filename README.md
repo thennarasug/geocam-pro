@@ -1,23 +1,8 @@
 # GeoCam Pro — GPS Geotagging Camera (Android APK & PWA)
 
 > **Author**: [thennarasug](https://github.com/thennarasug)  
-> **Contact**: thennarasugr@gmail.com  
+> **Contact**: [thennarasug](https://github.com/thennarasug)  
 > **Live Applet**: [https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app](https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app)
-
----
-
-## 📱 Mobile APK Test & Installation
-
-GeoCam Pro is packaged as an installable **Progressive Web App (PWA) / Android WebAPK** with native Android manifest integration:
-
-1. On your Android phone, open **Google Chrome** or **Samsung Internet**.
-2. Navigate to:  
-   `https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app`  
-   *(or scan the QR code displayed inside the GeoCam Pro app)*
-3. An **"Install App"** / **"Add GeoCam to Home screen"** prompt will appear.
-4. Tap **Install** — Android will automatically build and install the native WebAPK into your phone's app drawer!
-5. Launch GeoCam Pro from your home screen — it runs in **standalone full-screen mode** with hardware camera access, offline satellite GPS tracking, and no browser address bar.
-
 ---
 
 ## ✨ Key Features
@@ -38,40 +23,17 @@ GeoCam Pro is packaged as an installable **Progressive Web App (PWA) / Android W
 
 ---
 
-## 🚀 Pushing to your GitHub Account (`thennarasug`)
+## 📱 Mobile APK Test & Installation
 
-To publish this project to your GitHub repository:
+GeoCam Pro is packaged as an installable **Progressive Web App (PWA) / Android WebAPK** with native Android manifest integration:
 
-```bash
-# 1. Create a new repository on GitHub named "geocam-pro"
-# https://github.com/new
-
-# 2. Add your GitHub remote
-git remote add origin https://github.com/thennarasug/geocam-pro.git
-
-# 3. Rename branch to main
-git branch -M main
-
-# 4. Push your commits
-git push -u origin main
-```
-
-*(If using a GitHub Personal Access Token or SSH keys, ensure your git credentials are configured)*
-
----
-
-## 🛠️ Local Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start local dev server
-npm run dev
-
-# Build for production
-npm run build
-```
+1. On your Android phone, open **Google Chrome** or **Samsung Internet**.
+2. Navigate to:  
+   `https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app`  
+   *(or scan the QR code displayed inside the GeoCam Pro app)*
+3. An **"Install App"** / **"Add GeoCam to Home screen"** prompt will appear.
+4. Tap **Install** — Android will automatically build and install the native WebAPK into your phone's app drawer!
+5. Launch GeoCam Pro from your home screen — it runs in **standalone full-screen mode** with hardware camera access, offline satellite GPS tracking, and no browser address bar.
 
 ---
 
