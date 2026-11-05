@@ -3,4 +3,34 @@
   "description": "Professional GPS geotagging camera app. Capture photos stamped with high-accuracy coordinates, altitude, compass bearing, timestamp, and address with offline support.",
   "requestFramePermissions": ["camera", "geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+
+  
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "ais-dev-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "ais-dev-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://ais-dev-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "thennarasu.geocamera",
+  "categories": [
+    "photo"
+  ]
+  
 }
