@@ -2,7 +2,9 @@
 
 > **Author**: [thennarasug](https://github.com/thennarasug)  
 > **Contact**: [thennarasug](https://github.com/thennarasug)  
+> **Active Live URL (Development)**: [https://ais-dev-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app](https://ais-dev-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app)  
 > **Live Applet**: [https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app](https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app)
+> **Shared / Production URL**: [https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app](https://ais-pre-nt57j32b64fgcv5cyo5zq4-315195682739.asia-southeast1.run.app) *(Active after clicking Share in AI Studio)*
 ---
 
 ## ✨ Key Features
